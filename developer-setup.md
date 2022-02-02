@@ -1,4 +1,3 @@
-[[_TOC_]]
 ![ATNOM](https://atnom.com/wp-content/uploads/2020/12/atnom1-300x44.png)
 ## Hardware checkup
 First, you should check if your VPC (Virtual Processor Core) is enabled. You can check it by running on Windows PowerShell: 
