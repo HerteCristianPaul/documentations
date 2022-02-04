@@ -1,12 +1,12 @@
 ![ATNOM](https://atnom.com/wp-content/uploads/2020/12/atnom1-300x44.png)
-## Hardware checkup
-First, you should check if your VPC (Virtual Processor Core) is enabled. You can check it by running on Windows PowerShell: 
-```sh
- Get-ComputerInfo -property "HyperV*" 
-``` 
-If you get something like this ```HyperVisorPresent: True``` you are good to go, if you get ```False``` you need to access the BIOS go to Security->Virtualization, and enable both of the options.
-  - Additional links : 
-      - **[Recommended ways to enter BIOS](https://pcsupport.lenovo.com/ro/en/products/laptops-and-netbooks/thinkpad-edge-laptops/thinkpad-e14-type-20ra-20rb/solutions/ht500222-recommended-ways-to-enter-bios-boot-menu-thinkpad-thinkcentre-thinkstation)** 
+## CPU Virtualization check
+First, you should check if your VPC (Virtual Processor Core) is enabled. You can check it by opening Performance Tab from Task Manager.
+
+![Virtualization Check](https://i.stack.imgur.com/GkDPe.jpg)
+
+If Virtualization is disabled you need to access the UEFI or BIOS(older hardware) and enable both of the options.
+To enter the UEFI/BIOS you need to open Settings->Update&Security->Recovery->Advanced Startup. After the PC restarts select Troubleshoot->Advanced Options->Startup Settings->BIOS/UEFI.
+
 
 # Installations
 ## Install Docker
@@ -16,13 +16,14 @@ When the installation finishes, Docker starts automatically. The whale ![whale](
   - Additional links : 
     -  **[Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/)** 
     -  **[Docker Desktop WSL 2 backend](https://docs.docker.com/docker-for-windows/wsl/)**
-    -  **[How To Install and Use Docker on Ubuntu 16.04(Tutorial)](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)**
+    -  **[How To Install and Use Docker on Ubuntu 20-04(Tutorial)](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)**
 
 
 ## Install Ubuntu
-**[Get Ubuntu 16.04](https://aka.ms/wsl-ubuntu-1604)**
+Get **Ubuntu 20.04 LTS** From Microsoft Store 
 
-After you download the ```.appx``` file, double click on it and install it. You can check by searching in your home start ```Ubuntu 16.04 LTS``` and run it, you should see a new terminal that has access to your subsystem. By installing a subsystem on your current operating system you will integrate this subsystem with the WSL distro. Then go back to Docker Settings->Resources->WSL INTEGRATION and enable the additional distro ```Ubuntu-16.04```, and again Apply & Restart. In case you get an error about your current version of the WSL kernel,  download and install [wsl_update_x64](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
+After Ubuntu subsystem has been installed on your local machine open it and you should see a new terminal that has access to your subsystem. Let it config itself.
+By installing a subsystem on your current operating system you will integrate this subsystem with the WSL distro. Then go back to Docker Settings->Resources->WSL INTEGRATION and enable the additional distro ```Ubuntu-20.04```, and again Apply & Restart. In case you get an error about your current version of the WSL kernel,  download and install [wsl_update_x64](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
 
   - Additional links : 
     -  **[Download Windows Subsystem for Linux distro packages](https://docs.microsoft.com/en-us/windows/wsl/install-manual)** 
@@ -30,16 +31,16 @@ After you download the ```.appx``` file, double click on it and install it. You 
 ## Install VS Code
 **[GET VS Code](https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user)**
 
-After you install VS Code goes to **[link](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)** and install Remote - WSL. Open again VS Code and press F1 and search ```Remote-WSL: New Window using Distro...``` and select ```Ubuntu-16.04```, it will open a new window that is connected to your subsystem Ubuntu.
+After you have installed VS Code go to **[this link](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)** and install Remote - WSL. Open again VS Code and press F1 and search ```Remote-WSL: New Window using Distro...``` and select ```Ubuntu-20.04```, it will open a new window that is connected to your subsystem Ubuntu.
 
 ## Install MySQL Workbanch
-**[Get MySQL Workbanch](https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.23-winx64.msi)**
-In case you don't have installed, [Visual C++](https://aka.ms/vs/16/release/vc_redist.x64.exe)
+**[Get MySQL Workbanch](https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.23-winx64.msi)**.
+In case you don't have it installed [Visual C++](https://aka.ms/vs/16/release/vc_redist.x64.exe)
 
 
 ## Install Apache, PHP, and MySQL into your subsystem
 ### Apache
-To install Apache into your subsystem you need to open ```Ubuntu 16.04 LTS``` and run these commands in this sequence:
+To install Apache into your subsystem you need to open ```Ubuntu 20.04 LTS``` and run these commands in this sequence:
 ```sh
 sudo apt update
 sudo apt upgrade
@@ -77,10 +78,12 @@ Use the following command to check the PHP version installed on your server:
 php -v
 ```
   - Additional links : 
-    -  **[How to Install PHP 7.2 on Ubuntu 16.04](https://www.rosehosting.com/blog/how-to-install-php-7-2-on-ubuntu-16-04/)** 
+    -  **[How to Install PHP 7.2 on Ubuntu 20.04](https://www.rosehosting.com/blog/how-to-install-php-7-2-on-ubuntu-16-04/)** 
 
 ### MySQL
-Open VS Code with Ubuntu distro and open the folder ```home/```, create a new file call ```docker-compose.yml``` and insert:
+Open VS Code with Ubuntu distro and open the folder ```home/```, create a new file call ```docker-compose.yml``` 
+(!By default this file will be read-only. Use chwon command [$ chown ownerName fileName] from VS Code terminal to make it writable) 
+and insert:
 ```docker
 version: "3.9"
 services:
